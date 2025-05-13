@@ -10,9 +10,6 @@ __pycache__/
 venv/
 .env/
 
-# Logs
-*.log
-
 # Jupyter notebooks checkpoints
 .ipynb_checkpoints/
 
