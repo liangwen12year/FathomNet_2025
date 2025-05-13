@@ -1,8 +1,7 @@
-# Hierarchical Marine-Taxon Recognition (FathomNet 2025)
+# Advance Hierarchical Classification of Ocean Life (FathomNet 2025)
 
-This repository contains all code used in our NeurIPS-style paper  
-*“Hierarchical Marine-Taxon Recognition with Lightweight Transformers and Distance-Aware Objectives.”*  
-It trains four back-bones at a fixed resolution, adds optional CoAtNet and focal-only variants, and produces a Kaggle-ready submission CSV that scores **≈ 2.9 mean distance** on the public leaderboard (single fold, single laptop, no EMA).
+This repository contains all code used in our NeurIPS-style paper *“Advance Hierarchical Classification of Ocean Life.”*  
+It trains four back-bones at a fixed resolution, adds optional CoAtNet and focal-only variants, and produces a Kaggle-ready submission CSV that scores **≈ 3.0 mean distance** on the public leaderboard (single fold, single laptop, no EMA).
 
 ---
 
@@ -31,7 +30,7 @@ It trains four back-bones at a fixed resolution, adds optional CoAtNet and focal
 
 ## 2. Prerequisites
 
-* macOS 14 or Linux (tested on Apple M3 Max and RTX-30xx)
+* macOS 14 or Linux (tested on Apple M3 Max and NVIDIA A6000)
 * Python ≥ 3.10
 
 ### 2.1. Create Environment
@@ -58,7 +57,6 @@ After extraction, you should have:
 ```
 fgvc-comp-2025/data/train/
 fgvc-comp-2025/data/test/
-fgvc-comp-2025/data/train/annotations.csv
 ```
 
 ---
@@ -71,7 +69,7 @@ fgvc-comp-2025/data/train/annotations.csv
 python train_all.py               # 4×15 epochs, 384 px, ~9 h on M3 Max
 ```
 
-Checkpoints appear in `checkpoints/`:
+Checkpoints appear in `model_checkpoints/`:
 
 ```
 convnext_best.pt
@@ -126,7 +124,7 @@ python predict_copy.py --size 384 --ckpts checkpoints/coatnet_best.pt --out subm
 ```
 
 * Averages softmax probabilities across models.
-* Generates `submission.csv` with `uuid,concept_name` format.
+* Generates `submission.csv` with `annotations_id,concept_name` format.
 
 ---
 
@@ -152,18 +150,11 @@ python predict_copy.py --size 384 --ckpts checkpoints/coatnet_best.pt --out subm
 | `fathomnet_heir_loss_with_focal`   | ConvNeXt-L + focal              | 86.41 %    | 1.54     | 3.76     |
 | `fathomnet_ema_schedular`          | ConvNeXt-L + EMA                | 85.95 %    | 0.38     | 8.55     |
 | `fathomnet_heir_loss_with_coatnet` | CoAtNet-0                       | 86.41 %    | 0.18     | 8.71     |
-| **4-model ensemble (this repo)**   | EffV2-M + ConvNeXt + Swin + ViT | **92.0 %** | **0.79** | **2.88** |
+| **4-model ensemble (this repo)**   | EffV2-M + ConvNeXt + Swin + ViT | **88.03 %** | **0.72** | ***** |
 
 ---
 
-## 8. Citing or Re-Using
-
-If you find this code useful, please cite the accompanying paper (to be released) or credit
-**Kavin R. & Collaborators, “Hierarchical Marine-Taxon Recognition”, 2024.**
-
----
-
-## 9. Troubleshooting
+## 8. Troubleshooting
 
 | Issue                        | Fix                                                                                                |
 | ---------------------------- | -------------------------------------------------------------------------------------------------- |
