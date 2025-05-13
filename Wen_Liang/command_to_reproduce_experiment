@@ -1,0 +1,233 @@
+$ python train_validation_test_ConvNeXt_Large.py --train_csv ./train/annotations.csv --test_csv ./test/annotations.csv --output_csv submission12.csv  --epochs 11 --loss focal --gamma 2.0
+Downloading: "https://download.pytorch.org/models/convnext_large-ea097f82.pth" to /home/wl2904/.cache/torch/hub/checkpoints/convnext_large-ea097f82.pth
+100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 755M/755M [00:09<00:00, 84.0MB/s]
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+HPU available: False, using: 0 HPUs
+----------------------------------------------------------------------------------------------------
+distributed_backend=nccl
+All distributed processes registered. Starting with 4 processes
+----------------------------------------------------------------------------------------------------
+
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
+LOCAL_RANK: 1 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
+LOCAL_RANK: 3 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
+LOCAL_RANK: 2 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
+Loading `train_dataloader` to estimate number of stepping batches.
+
+  | Name      | Type      | Params | Mode
+------------------------------------------------
+0 | backbone  | ConvNeXt  | 196 M  | train
+1 | criterion | FocalLoss | 0      | train
+------------------------------------------------
+196 M     Trainable params
+0         Non-trainable params
+196 M     Total params
+785.568   Total estimated model params size (MB)
+388       Modules in train mode
+0         Modules in eval mode
+Sanity Checking DataLoader 0: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 2/2 [00:01<00:00,  1.87it/s]/home/wl2904/miniconda3/envs/myenv/lib/python3.10/site-packages/pytorch_lightning/trainer/connectors/logger_connector/result.py:434: It is recommended to use `self.log('val_loss', ..., sync_dist=True)` when logging on epoch level in distributed setting to accumulate the metric across devices.
+Epoch 10: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 149/149 [03:51<00:00,  0.64it/s, v_num=14, train_loss=0.00535, val_loss=0.333]`Trainer.fit` stopped: `max_epochs=11` reached.
+Epoch 10: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 149/149 [03:58<00:00,  0.63it/s, v_num=14, train_loss=0.00535, val_loss=0.333]
+Saved submission → submission12.csv
+Saved submission → submission12.csv
+
+
+
+
+
+$ python train_validation_test_ConvNeXt_Large.py \
+  --train_csv   ./train/annotations.csv \
+  --test_csv    ./test/annotations.csv \
+  --output_csv  submission14.csv \
+  --epochs      15 \
+  --lr          8e-5 \
+  --weight_decay 8e-5 \
+  --loss        ce
+model.safetensors: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 354M/354M [00:00<00:00, 514MB/s]
+Using 16bit Automatic Mixed Precision (AMP)
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+HPU available: False, using: 0 HPUs
+----------------------------------------------------------------------------------------------------
+distributed_backend=nccl
+All distributed processes registered. Starting with 4 processes
+----------------------------------------------------------------------------------------------------
+
+LOCAL_RANK: 3 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
+LOCAL_RANK: 1 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
+LOCAL_RANK: 2 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
+Loading `train_dataloader` to estimate number of stepping batches.
+
+  | Name      | Type             | Params | Mode
+-------------------------------------------------------
+0 | backbone  | ConvNeXt         | 196 M  | train
+1 | criterion | CrossEntropyLoss | 0      | train
+-------------------------------------------------------
+Epoch 14: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 149/149 [01:36<00:00,  1.54it/s, v_num=19, train_loss=0.798, val_loss=1.240]`Trainer.fit` stopped: `max_epochs=15` reached.
+Epoch 14: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 149/149 [01:40<00:00,  1.49it/s, v_num=19, train_loss=0.798, val_loss=1.240]
+Saved submission → submission14.csv
+Saved submission → submission14.csv
+
+
+
+
+
+$ python train_validation_test_ConvNeXt_Large.py \
+  --train_csv        train/annotations.csv \
+  --test_csv         test/annotations.csv \
+  --output_csv       submission_ce_taxo.csv \
+  --loss             ce_taxo \
+  --alpha_taxo       0.5 \
+  --distance_matrix  distance_matrix.npy \
+  --epochs           12 \
+  --batch_size       32 \
+  --lr               1e-4 \
+  --weight_decay     1e-4
+Using 16bit Automatic Mixed Precision (AMP)
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+HPU available: False, using: 0 HPUs
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
+Loading `train_dataloader` to estimate number of stepping batches.
+
+  | Name      | Type           | Params | Mode
+-----------------------------------------------------
+0 | backbone  | ConvNeXt       | 196 M  | train
+1 | criterion | CombinedTaxoCE | 0      | train
+-----------------------------------------------------
+196 M     Trainable params
+0         Non-trainable params
+196 M     Total params
+785.568   Total estimated model params size (MB)
+389       Modules in train mode
+0         Modules in eval mode
+Epoch 3:  29%|█████████████████████████████████▌                                                                        Epoch 3:  29%|████████                    | 171/593 [01:20<03:17,  2.14it/s, v_num=38, trEpoch 11: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 593/593 [01:55<00:00,  5.15it/s, v_num=38, train_loss=1.060, val_loss=1.910]`Trainer.fit` stopped: `max_epochs=12` reached.
+Epoch 11: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 593/593 [02:01<00:00,  4.87it/s, v_num=38, train_loss=1.060, val_loss=1.910]
+Saved submission → submission_ce_taxo.csv
+
+
+
+
+
+$ python train_validation_test_EfficientNet_V2_M.py \
+  --train_csv         train/annotations.csv \
+  --test_csv          test/annotations.csv \
+  --output_csv        submission_focal_taxo.csv \
+  --loss              focal_taxo \
+  --distance_matrix   distance_matrix.npy \
+  --gamma             2.0 \
+  --alpha_focal       0.1 \
+  --alpha_taxo        0.5 \
+  --batch_size        32 \
+  --epochs            12 \
+  --lr                1e-4 \
+  --weight_decay      1e-4
+
+Using 16bit Automatic Mixed Precision (AMP)
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+HPU available: False, using: 0 HPUs
+----------------------------------------------------------------------------------------------------
+distributed_backend=nccl
+All distributed processes registered. Starting with 4 processes
+----------------------------------------------------------------------------------------------------
+
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
+LOCAL_RANK: 1 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
+LOCAL_RANK: 2 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
+LOCAL_RANK: 3 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
+Loading `train_dataloader` to estimate number of stepping batches.
+
+  | Name      | Type          | Params | Mode
+----------------------------------------------------
+0 | backbone  | EfficientNet  | 53.0 M | train
+1 | criterion | FocalTaxoLoss | 0      | train
+----------------------------------------------------
+53.0 M    Trainable params
+0         Non-trainable params
+53.0 M    Total params
+211.978   Total estimated model params size (MB)
+1026      Modules in train mode
+0         Modules in eval mode
+Epoch 11: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 149/149 [02:25<00:00,  1.02it/s, v_num=29, train_loss=0.0835, val_loss=0.0819]`Trainer.fit` stopped: `max_epochs=12` reached.
+Epoch 11: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 149/149 [02:25<00:00,  1.02it/s, v_num=29, train_loss=0.0835, val_loss=0.0819]
+Saved submission → submission_focal_taxo.csv
+
+
+
+
+
+$ python train_validation_test_EfficientNet_V2_M.py   --train_csv         train/annotations.csv   --test_csv          test/annotations.csv   --output_csv        submission_focal_t
+axo_2.csv   --loss              focal_taxo   --distance_matrix   distance_matrix.npy   --gamma             2.0   --alpha_focal       0.1   --alpha_taxo        0.5   --batch_size        32   --epochs
+ 6   --lr                1e-4   --weight_decay      1e-4
+Using 16bit Automatic Mixed Precision (AMP)
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+HPU available: False, using: 0 HPUs
+----------------------------------------------------------------------------------------------------
+distributed_backend=nccl
+All distributed processes registered. Starting with 4 processes
+----------------------------------------------------------------------------------------------------
+
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
+LOCAL_RANK: 2 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
+LOCAL_RANK: 1 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
+LOCAL_RANK: 3 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
+Loading `train_dataloader` to estimate number of stepping batches.
+
+  | Name      | Type          | Params | Mode
+----------------------------------------------------
+0 | backbone  | EfficientNet  | 53.0 M | train
+1 | criterion | FocalTaxoLoss | 0      | train
+----------------------------------------------------
+53.0 M    Trainable params
+0         Non-trainable params
+53.0 M    Total params
+211.978   Total estimated model params size (MB)
+1026      Modules in train mode
+0         Modules in eval mode
+Epoch 5: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 149/149 [01:06<00:00,  2.25it/s, v_num=31, train_loss=0.160, val_loss=0.076]`Trainer.fit` stopped: `max_epochs=6` reached.
+Epoch 5: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 149/149 [01:08<00:00,  2.18it/s, v_num=31, train_loss=0.160, val_loss=0.076]
+Saved submission → submission_focal_taxo_2.csv
+
+
+
+
+$ python train_validation_test_EfficientNet_V2_L.py \
+  --train_csv train/annotations.csv \
+  --test_csv  test/annotations.csv \
+  --output_csv submission_combined.csv \
+  --loss      focal_taxo \
+  --gamma     2.0 \
+  --alpha_focal 0.25 \
+  --alpha_taxo  0.5 \
+  --distance_matrix distance_matrix.npy \
+  --epochs 10 \
+  --batch_size 32
+
+Using 16bit Automatic Mixed Precision (AMP)
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+HPU available: False, using: 0 HPUs
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
+Loading `train_dataloader` to estimate number of stepping batches.
+
+  | Name       | Type                  | Params | Mode
+-------------------------------------------------------------
+0 | backbone   | EfficientNet          | 117 M  | train
+1 | ce_loss    | CrossEntropyLoss      | 0      | train
+2 | focal_loss | FocalLoss             | 0      | train
+3 | taxo_loss  | TaxonomicDistanceLoss | 0      | train
+-------------------------------------------------------------
+117 M     Trainable params
+0         Non-trainable params
+117 M     Total params
+469.481   Total estimated model params size (MB)
+1414      Modules in train mode
+0         Modules in eval mode
+Epoch 9: 100%|████████████████████████████████████████████████████████████████████████████████████████| 593/593 [03:41<00:00,  2.67it/s, v_num=35, train_loss_step=0.020, val_loss=0.547, train_loss_epoch=0.234]`Trainer.fit` stopped: `max_epochs=10` reached.
+Epoch 9: 100%|████████████████████████████████████████████████████████████████████████████████████████| 593/593 [03:45<00:00,  2.62it/s, v_num=35, train_loss_step=0.020, val_loss=0.547, train_loss_epoch=0.234]
+Saved submission → submission_combined.csv
+
