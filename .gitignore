@@ -1,0 +1,29 @@
+# macOS system files
+.DS_Store
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environments
+venv/
+.env/
+
+# Logs
+*.log
+
+# Jupyter notebooks checkpoints
+.ipynb_checkpoints/
+
+# Model checkpoints and large files
+*.ckpt
+*.pt
+*.pth
+
+# Ignore data folders (optional)
+data/
+datasets/
+
+# VSCode settings (optional)
+.vscode/
