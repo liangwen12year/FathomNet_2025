@@ -24,6 +24,22 @@ python download_fathomnet_data.py
 
 This will log in to KaggleHub, download the competition files, and extract them into a local directory (e.g. `~/.cache/kagglehub/competitions/fathomnet-2025/`).
 
+Then, install additional dependencies required for downloading the full dataset:
+
+```bash
+pip install -r ~/.cache/kagglehub/competitions/fathomnet-2025/requirements.txt
+```
+
+Use the following commands to download training and test images with their annotations:
+
+```bash
+python ~/.cache/kagglehub/competitions/fathomnet-2025/download.py \
+  ~/.cache/kagglehub/competitions/fathomnet-2025/dataset_train.json ./train/
+
+python ~/.cache/kagglehub/competitions/fathomnet-2025/download.py \
+  ~/.cache/kagglehub/competitions/fathomnet-2025/dataset_test.json ./test/
+```
+
 ## 2. Generate Taxonomic Distance Matrix
 
 Build a 79×79 taxonomic distance matrix from WoRMS lineage data:
@@ -100,30 +116,5 @@ To reproduce the ConvNeXt‑Large focal‐loss baseline (val. loss = 0.333), run
 python train_validation_test_ConvNeXt_Large.py \
   --train_csv ./train/annotations.csv \
   --test_csv  ./test/annotations.csv \
-  --output_csv submission12.csv \
-  --epochs     11 \
-  --loss       focal \
-  --gamma      2.0
+  --output_csv submiss
 ```
-
-> **Purpose:** The `command_to_reproduce_experiment` script captures both the exact training command and its console output, providing a provenance log that verifies the authenticity and reproducibility of our baseline.
->
-> **Sample Log Snippet:**
->
-> ```
-> Epoch 10: train_loss=0.00535, val_loss=0.333
-> Saved submission → submission12.csv
-> ```
-
-## 4. Inference and Submission
-
-Each training script saves the best model checkpoint and produces a CSV submission file (`--output_csv`). Simply upload this file to the FathomNet leaderboard or use it for further analysis.
-
-## 5. Customization
-
-* **Loss functions:** `--loss` can be `ce`, `focal`, `taxo`, `ce_taxo`, or `focal_taxo`.
-* **Hyperparameters:** Adjust `--gamma`, `--alpha_focal`, `--alpha_taxo`, `--lr`, and `--weight_decay` as needed.
-* **Backbones:** Swap in different model scripts or modify `train_validation_test_*.py` for new architectures.
-
----
-
